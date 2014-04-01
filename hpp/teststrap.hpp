@@ -102,6 +102,10 @@
  */
 #define NNOT_SAME_POINT(o, z) NOT_SAME(&o, &z);
 /**
+ * Failure assertion
+ */
+#define FAIL IS_TRUE(false)
+/**
  * Make sure the arguments are eqaul
  */
 #define ASSERT_IS_EQUAL(o, z) IS_EQUAL(o, z)
@@ -181,7 +185,10 @@
  * Make sure the arguments WHICH ARE {NOT} POINTERS are pointing same location
  */
 #define ASSERT_NNOT_SAME_POINT(o, z) NNOT_SAME_POINT(o, z)
-
+/**
+ * Failure assertion
+ */
+#define ASSERT_FAILURE FAIL
 /*
  * Include your boostrap files
  */
