@@ -7,7 +7,7 @@
 #if defined(__DEBUG__) || defined(__RELEASE__)
     #undef __TESTING__
 #endif
-#ifdef __TESTING__
+#if defined(__TESTING__) && !defined(__DEMO__)
 #include <sstream>
 #include "manifest.hpp"
 using namespace CPP_TESTER;
