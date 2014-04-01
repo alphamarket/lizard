@@ -125,7 +125,7 @@ namespace CPP_TESTER { namespace TESTS {
             __line = new line(-1, "INVALID_TEST_LINE");
             // since the line# is `size_t` so any negative line#
             // will dealt as unsigned.
-            IS_NOT(__inv_line.getLineNumber(), -1);
+            NOT_EQUAL(__line->getLineNumber(), (unsigned)-1);
             // test line content
             IS_EQUAL(__line->getContent(), "INVALID_TEST_LINE");
             // no source defined as well
