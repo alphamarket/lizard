@@ -176,11 +176,11 @@
 /**
  * Make sure the arguments WHICH ARE POINTERS are pointing same location
  */
-#define ASSERT_PNOT_SAME_POINT(o, z) NOT_PSAME_POINT(o, z)
+#define ASSERT_PNOT_SAME_POINT(o, z) PNOT_SAME_POINT(o, z)
 /**
  * Make sure the arguments WHICH ARE {NOT} POINTERS are pointing same location
  */
-#define ASSERT_NNOT_SAME_POINT(o, z) NOT_NSAME_POINT(o, z)
+#define ASSERT_NNOT_SAME_POINT(o, z) NNOT_SAME_POINT(o, z)
 
 /*
  * Include your boostrap files
