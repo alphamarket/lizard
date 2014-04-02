@@ -149,39 +149,48 @@ Easy! in `test/testerMain.cpp` the main function will call first `__init()` whic
 <hr />
 <h5>Step# 2: Add your class into manifest list</h5>
 <hr />
-After you have wrote your test you need to introduce your test class to C++ Tester, so you need to add some few lines in `test/manifest.hpp` file. The few things you need to add into `test/manifest.hpp` file is as follow:
-    * `#include` your test file.
-    * Add a `test_case`.
-        * Should have name(For display purposes in our example e.g `Line Tester`).
-        * Should have a `test_pack`.(For involing purposes)
-            * Should have an instance of your test class.
-            * Any optional argument your may want to pass as `test_args`.
+After you have wrote your test you need to introduce your test class to C++ Tester, so you need to add some few lines in `test/manifest.hpp` file in order to register your test cases.
 
-
-So based on above details the `test_case` instance for our `lineTestCase` looks like as bellow:
+The blow code is an example of you register your test cases:
 
 ```CPP
-    test_case
-    (
-        // any optional name
-        "Line Tester",
-        test_pack
-        (
-            // The instance of your test class
-            new CPP_TESTER::TESTS::lineTestCase(),
-            // in this case we will pass empty argument to our test class
-            test_args()
-        )
-    )
+/*
+ * File:   manifest.hpp
+ * Author: dariush
+ *
+ * Created on April 1, 2014, 2:13 AM
+ */
+#ifndef MANIFEST_HPP
+#define	MANIFEST_HPP
+#include "hpp/registery.hpp"
+/*
+ * Include test case files
+ */
+#include "TestCases/example/lineTestCase.hpp"
+namespace CPP_TESTER {
+    /**
+     * bootstrap the test suite for testing
+     */
+    void __bootstrap() {
+        // The line tester
+        registery::__register("Line Tester", new CPP_TESTER::TESTS::lineTestCase());
+        // OR if you wish to pass some argument
+        // registery::__register("Line Tester", new CPP_TESTER::TESTS::lineTestCase(), 
+        //                          { new someInstance(), new string("Hello World!") });
+    }
+}
+#endif	/* MANIFEST_HPP */
 ```
+> <small>The above code snap was taken from [C++ Tester's Demo](https://github.com/dariushha/cpptester-demo).</small>
 
-In `test/manifest.hpp` there is a `test_case _tests[]`. You need to add the above `test_case` into `_tests[]` to make your test class available for testing. See [this](https://github.com/dariushha/cpptester-demo/blob/master/test/manifest.hpp) for more detail about `test/manifest.hpp`.  
+All you need to do is `register` your test case in `__bootstrap()` function in `test/manifest.hpp` file.
 
+> <b>Note: </b>The test cases will execute in order they have been registered!
 
 <hr />
 <h5>Step# 3: You are DONE!</h5>
 <hr />
-Just all you need is compile your `test/testerMain.cpp` file and execute it to see your test results!
+Just all you need to do is compile your `test/testerMain.cpp` file and execute it to see your test results!
 
 Demo
 ---
