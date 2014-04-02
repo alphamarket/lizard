@@ -43,8 +43,10 @@ void change_stdout(bool change2buffer = false);
 int main(int argc, char** argv) {
     /* register an atExit handler */
     atexit(&atExit);
+    /* bootstrap the test suites */
+    __bootstrap();
     /* fetch test suite */
-    test_suite __test_suite = BuildTestSuite();
+    test_suite __test_suite = registery::getTestSuites();
     /* foreach test case */
     for(; __testCounter< __test_suite.size(); __testCounter++)
     {

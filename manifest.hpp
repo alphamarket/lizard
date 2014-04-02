@@ -6,45 +6,18 @@
  */
 #ifndef MANIFEST_HPP
 #define	MANIFEST_HPP
-#include "hpp/testCase.hpp"
-#include <vector>
+#include "hpp/registery.hpp"
 /*
  * Include test case files
  */
-//#include "TestCases/example/fooTestCase.hpp"
-//#include "TestCases/example/barTestCase.hpp" 
+// #include "TestCases/example/fooTestCase.hpp"
 namespace CPP_TESTER {
-    typedef vector< void* > test_args;
-    typedef pair< testCase*,  test_args > test_pack;
-    typedef pair< std::string, test_pack > test_case;
-    typedef vector<test_case> test_suite;
     /**
-     * Builds test suite for testing
-     * @return The test_cases
+     * bootstrap the test suite for testing
      */
-    test_suite BuildTestSuite() {
-        test_case _tests[] = {
-            /*
-            test_case
-            (
-                    "Foo Tester",
-                    test_pack
-                    (
-                        new fooTestCase(),
-                        test_args()
-                    )
-            ),
-            test_case
-            (
-                    "Bar Tester",
-                    test_pack
-                    (
-                        new barTestCase(),
-                        test_args()
-                    )
-            )*/
-        };
-        return test_suite(_tests, _tests + sizeof(_tests) / sizeof(test_case));
+    void __bootstrap() {
+        /* example */
+        // registery::__register("Example Tester", new fooTestCase());
     }
 }
 #endif	/* MANIFEST_HPP */
