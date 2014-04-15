@@ -59,6 +59,8 @@ int main(int argc, char** argv) {
             __test_case->second.first->__init();
             /* run the test case */
             __test_case->second.first->__run(__test_case->second.second.size(), __test_case->second.second.data());
+            /* dispose the test case */
+            __test_case->second.first->__dispose();
         }
         /* restore the stdout to it origin out streamer */
         change_stdout(false);
