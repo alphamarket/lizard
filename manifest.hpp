@@ -6,6 +6,7 @@
  */
 #ifndef MANIFEST_HPP
 #define	MANIFEST_HPP
+#include "hpp/teststrap.hpp"
 #include "hpp/registery.hpp"
 /*
  * Include test case files

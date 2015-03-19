@@ -50,10 +50,12 @@ int main(int argc, char** argv) {
     /* foreach test case */
     for(; __testCounter< __test_suite.size(); __testCounter++)
     {
-        /* change the stdout to buffer std stream */
-        change_stdout(true);
         /* fetch a test case */
         __test_case = &__test_suite.at(__testCounter);
+        /* Promt the test-case */
+        std::cout<<"[.] "<<__test_case->first<<std::flush;
+        /* change the stdout to buffer std stream */
+        change_stdout(true);
         {
             /* init the test case */
             __test_case->second.first->__init();
@@ -90,7 +92,7 @@ void flush_buffer(void) {
     /* output las testcase status */
     if(__test_case != NULL)
         /* output the check status */
-        echo("[OK] "<< __test_case->first);
+        echo("\r[\u221A] "<< __test_case->first);
     /* if there was any output */
     if(__output.length() != 0)
     {

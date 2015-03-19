@@ -57,7 +57,7 @@
 /**
  * Makes sure the argument is NOT IS_EQUAL to zero
  */
-#define IS_NOT_ZERO(o) NOT_EQUAL(o, 0)
+#define NOT_ZERO(o) NOT_EQUAL(o, 0)
 /**
  * Makes sure the argument is true
  */
@@ -65,7 +65,7 @@
 /**
  * Makes sure the argument is NOT true
  */
-#define IS_NOT_TRUE(o) IS_EQUAL(o, false)
+#define NOT_TRUE(o) IS_EQUAL(o, false)
 /**
  * Makes sure the argument is false
  */
@@ -73,7 +73,7 @@
 /**
  * Makes sure the argument is NOT false
  */
-#define IS_NOT_FALSE(o) IS_EQUAL(o, true)
+#define NOT_FALSE(o) IS_EQUAL(o, true)
 /**
  * Makes sure the arguments are same type
  */
@@ -89,7 +89,7 @@
 /**
  * Makes sure the argument is NOT a pointer
  */
-#define IS_NOT_POINTER(o) NOT_EQUAL(typeid(o).name()[0], 'P')
+#define NOT_POINTER(o) NOT_EQUAL(typeid(o).name()[0], 'P')
 /**
  * Makes sure the arguments WHICH ARE POINTERS are pointing same location
  */
@@ -150,7 +150,7 @@
 /**
  * Makes sure the argument is NOT IS_EQUAL to zero
  */
-#define ASSERT_NOT_ZERO(o) IS_NOT_ZERO(o)
+#define ASSERT_NOT_ZERO(o) NOT_ZERO(o)
 /**
  * Makes sure the argument is true
  */
@@ -158,7 +158,7 @@
 /**
  * Makes sure the argument is NOT true
  */
-#define ASSERT_NOT_TRUE(o) IS_NOT_TRUE(o)
+#define ASSERT_NOT_TRUE(o) NOT_TRUE(o)
 /**
  * Makes sure the argument is false
  */
@@ -166,7 +166,7 @@
 /**
  * Makes sure the argument is NOT false
  */
-#define ASSERT_NOT_FALSE(o) IS_NOT_FALSE(o)
+#define ASSERT_NOT_FALSE(o) NOT_FALSE(o)
 /**
  * Makes sure the arguments are same type
  */
@@ -182,7 +182,7 @@
 /**
  * Makes sure the argument is NOT a pointer
  */
-#define ASSERT_NOT_POINTER(o) IS_NOT_POINTER(o)
+#define ASSERT_NOT_POINTER(o) NOT_POINTER(o)
 /**
  * Makes sure the arguments WHICH ARE POINTERS are pointing same location
  */

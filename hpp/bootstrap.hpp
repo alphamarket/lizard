@@ -16,7 +16,7 @@
 /* Global ease of access to std library */
 using namespace std;
 /* Define useful accessories */
-#define echo(o) std::cout<<o<<std::endl;
+#define echo(o) std::cout<<o<<std::endl<<std::flush
 #define disp(o) echo(o)
 /* Returns types' value */
 #define RETURN_FAILURE  return EXIT_FAILURE
