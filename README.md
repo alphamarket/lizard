@@ -29,11 +29,13 @@ Clone current C++ Tester repository into your project as [submodule](http://git-
 ```BASH
 cd "/path/to/cppApp"
 # Now we are under your project's subdirectory.
-git submodule add "https://github.com/dariushha/cpptester.git" test
+git submodule add "https://github.com/noise2/cpptester.git" test
 # Move into test folder
 cd "test"
 # Delete the submodule's origin repo. address
 git remote remove origin
+# Delete this README.md
+rm README.md
 # Set your testing remote repo.
 git remote add origin "https://some-url.com/someusr/somerepo.git"
 # That is it.
