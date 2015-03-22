@@ -192,7 +192,9 @@ All you need to do is `register` your test case in `__bootstrap()` function in `
 <hr />
 <h5>Step# 3: You are DONE!</h5>
 <hr />
-Just all you need to do is compile your `test/testerMain.cpp` file and execute it to see your test results!
+Just all you need to do is compile your `test/testerMain.cpp` file and execute it to see your test results!\
+
+> **Note:** You can use provided sample `CMakeLists.txt` file to compile your tests with `cmake` too.
 
 Demo
 ---
