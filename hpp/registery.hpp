@@ -29,5 +29,6 @@ namespace CPP_TESTER {
         static inline test_suite getTestSuites() { return __suite; }
         static inline void clear() { __suite.clear(); }
     };
+    test_suite registery::__suite;
 }
 #endif	/* REGISTERY_HPP */
