@@ -24,27 +24,12 @@ Assume you have project named `cppApp` written in C++.
 <hr />
 <h5>Step# 1: Clone the repo.</h5>
 <hr />
-Clone current C++ Tester repository into your project as [submodule](http://git-scm.com/docs/git-submodule).
+There is a [setup script](https://github.com/noise2/cpptester/blob/master/cpptester-setup) provided to make cloning this C++ Tester repository into your project easier
 
 ```BASH
 cd "/path/to/cppApp"
-# Now we are under your project's subdirectory.
-git submodule add "https://github.com/noise2/cpptester.git" test
-# Move into test folder
-cd "test"
-# Delete the submodule's origin repo. address
-git remote remove origin
-# create a temporary branch
-co --orphan xbranch
-# Delete this README.md
-rm README.md
-# delete this template repository's development history, by deleting the master branch
-git branch -D master
-# make an init commit!
-git add --all
-git commit -m "Init commit"
-# consider current temporary branch as new master branch
-git branch -m master
+# adds this repo into your project as a submodule and clears development history of this repo. too 
+curl https://raw.githubusercontent.com/noise2/cpptester/master/cpptester-setup | bash
 # Set your testing remote repo.
 git remote add origin "https://some-url.com/someusr/somerepo.git"
 # That is it.
