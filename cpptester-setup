@@ -1,0 +1,21 @@
+#!/bin/bash
+# Now we are under your project's subdirectory.
+git submodule add "https://github.com/noise2/cpptester.git" test || exit 1
+# Move into test folder
+cd "test"
+# Delete the submodule's origin repo. address
+git remote remove origin
+# create a temporary branch
+git checkout --orphan xbranch
+# Delete this README.md
+rm README.md cpptester-setup
+# delete this template repository's development history, by deleting the master branch
+git branch -D master
+# make an init commit!
+git add --all
+git commit -m "Init commit"
+# consider current temporary branch as new master branch
+git branch -m master
+git log
+# promt
+echo "[DONE]"
