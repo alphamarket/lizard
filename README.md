@@ -34,8 +34,17 @@ git submodule add "https://github.com/noise2/cpptester.git" test
 cd "test"
 # Delete the submodule's origin repo. address
 git remote remove origin
+# create a temporary branch
+co --orphan xbranch
 # Delete this README.md
 rm README.md
+# delete this template repository's development history, by deleting the master branch
+git branch -D master
+# make an init commit!
+git add --all
+git commit -m "Init commit"
+# consider current temporary branch as new master branch
+git branch -m master
 # Set your testing remote repo.
 git remote add origin "https://some-url.com/someusr/somerepo.git"
 # That is it.
