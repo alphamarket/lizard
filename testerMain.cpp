@@ -4,10 +4,6 @@
  *
  * Created on March 31, 2014, 9:57 PM
  */
-#if defined(__DEBUG__) || defined(__RELEASE__)
-    #undef __TESTING__
-#endif
-#if defined(__TESTING__) && !defined(__DEMO__)
 #include <sstream>
 #include "manifest.hpp"
 using namespace CPP_TESTER;
@@ -18,7 +14,7 @@ streambuf* const __stdout = std::cout.rdbuf();
 /* global accessable current testcase */
 test_case* __test_case = NULL;
 /* init test indexer/counter */
-int __testCounter = 0;
+size_t __testCounter = 0;
 /**
  * at exit handler
  */
@@ -40,7 +36,7 @@ void change_stdout(bool change2buffer = false);
 /*
  * The main entery point of test project
  */
-int main(int argc, char** argv) {
+int main(int, char**) {
     /* register an atExit handler */
     atexit(&atExit);
     /* bootstrap the test suites */
@@ -119,4 +115,3 @@ void change_stdout(bool change2buffer) {
         cout.rdbuf( __stdout );
     }
 }
-#endif

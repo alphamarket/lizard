@@ -11,8 +11,9 @@
 #define UN using namespace
 #define NS namespace
 /* Define IN-DEPENDENT essensial files */
-#include <iostream>
 #include <string>
+#include <stdlib.h>
+#include <iostream>
 /* Global ease of access to std library */
 using namespace std;
 /* Define useful accessories */
