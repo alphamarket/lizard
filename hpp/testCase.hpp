@@ -1,9 +1,3 @@
-/*
- * File:   tester.hpp
- * Author: dariush
- *
- * Created on March 31, 2014, 10:51 PM
- */
 #ifndef TESTER_HPP
 #define	TESTER_HPP
 #include "teststrap.hpp"
@@ -11,20 +5,21 @@ namespace CPP_TESTER {
     class testCase {
     public:
         /**
-         * Initiates the testcase
-         * @return true if it execute successfully; otherwise false
+         * @brief The virtual destructor
          */
-        virtual bool __init()  =0;
+        virtual ~testCase()     { }
         /**
-         * Disposes the testcase
-         * @return true if it execute successfully; otherwise false
+         * @brief Initiates the testcase
          */
-        virtual bool __dispose()  =0;
+        virtual void pre_run()  { }
         /**
-         * Runs t the testcase
-         * @return true if it execute successfully; otherwise false
+         * @brief Disposes the testcase
          */
-        virtual bool __run(int argc = 0, void** argv = NULL) = 0;
+        virtual void post_run() { }
+        /**
+         * @brief Runs the testcase
+         */
+        virtual void run(int argc = 0, void** argv = NULL) = 0;
     };
 }
 #endif	/* TESTER_HPP */

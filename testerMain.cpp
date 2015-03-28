@@ -1,9 +1,3 @@
-/*
- * File:   testerMain.cpp
- * Author: dariush
- *
- * Created on March 31, 2014, 9:57 PM
- */
 #include <sstream>
 #include "manifest.hpp"
 using namespace CPP_TESTER;
@@ -53,12 +47,14 @@ int main(int, char**) {
         /* change the stdout to buffer std stream */
         change_stdout(true);
         {
-            /* init the test case */
-            __test_case->second.first->__init();
+            /* pre-run the test case */
+            __test_case->second.first->pre_run();
             /* run the test case */
-            __test_case->second.first->__run(__test_case->second.second.size(), __test_case->second.second.data());
-            /* dispose the test case */
-            __test_case->second.first->__dispose();
+            __test_case->second.first->run(__test_case->second.second.size(), __test_case->second.second.data());
+            /* post-run the test case */
+            __test_case->second.first->post_run();
+            /* delete the test case's instance */
+            delete __test_case->second.first;
         }
         /* restore the stdout to it origin out streamer */
         change_stdout(false);
