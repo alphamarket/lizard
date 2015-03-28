@@ -77,15 +77,15 @@ namespace CPP_TESTER { namespace TESTS {
      */
     public:
         /**
-         * Init your test class here.
+         * @brief Runs before the run()
          */
-        void pre_run() { }
+        virtual void pre_run()  { }
         /**
-         * Free any resources used by your class here.
+         * @brief Runs after the run()
          */
-        void post_run() { }
+        virtual void post_run() { }
         /**
-         * Run your tests here
+         * @brief Runs the testcase
          */
         void run(int, void**) {
             /**
@@ -126,10 +126,6 @@ namespace CPP_TESTER { namespace TESTS {
 } }
 #endif // LINETESTCASE_HPP
 ```
-> <b>How it woks?</b>
-
-Easy! in `test/testerMain.cpp` the main function will call first `__init()` which you will initialize your test class and then `__run(int argc = 0, void** argv = NULL)` with any argument <b>you</b> have provided in `test/manifest.hpp` which you have the opportunity to test you class with anything in `__run()` function and after you have done with your test(i.e `__run()`) it will call the `__dispose()` function.
-
 > <b>Note:</b> Every each test class you write <b>MUST</b> inherit from  `CPP_TESTER::testCase`. 
 
 <hr />
@@ -140,29 +136,25 @@ After you have wrote your test you need to introduce your test class to C++ Test
 The blow code is an example of you register your test cases:
 
 ```CPP
-/*
- * File:   manifest.hpp
- * Author: dariush
- *
- * Created on April 1, 2014, 2:13 AM
- */
 #ifndef MANIFEST_HPP
 #define	MANIFEST_HPP
+#include "hpp/teststrap.hpp"
 #include "hpp/registery.hpp"
 /*
  * Include test case files
  */
-#include "TestCases/example/lineTestCase.hpp"
+#include "TestCases/lineTestCase.hpp"
 namespace CPP_TESTER {
     /**
      * bootstrap the test suite for testing
      */
     void __bootstrap() {
-        // The line tester
-        registery::__register("Line Tester", new CPP_TESTER::TESTS::lineTestCase());
+        /* register the line tester */
+        registery::__register("Line Tester", new CPP_TESTER::TESTS::lineTestCase);
         // OR if you wish to pass some argument
-        // registery::__register("Line Tester", new CPP_TESTER::TESTS::lineTestCase(), 
+        // registery::__register("Line Tester", new CPP_TESTER::TESTS::lineTestCase, 
         //                          { new someInstance(), new string("Hello World!") });
+
     }
 }
 #endif	/* MANIFEST_HPP */
