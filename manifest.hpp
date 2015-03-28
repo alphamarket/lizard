@@ -1,9 +1,3 @@
-/*
- * File:   manifest.hpp
- * Author: dariush
- *
- * Created on April 1, 2014, 2:13 AM
- */
 #ifndef MANIFEST_HPP
 #define	MANIFEST_HPP
 #include "hpp/teststrap.hpp"

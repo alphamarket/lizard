@@ -1,10 +1,3 @@
-/* 
- * File:   bootstrap.hpp
- * Author: dariush
- *
- * Created on March 28, 2014, 3:47 AM
- */
-
 #ifndef BOOTSTRAP_HPP
 #define	BOOTSTRAP_HPP
 /* A shortcut to `using namespace` statement */

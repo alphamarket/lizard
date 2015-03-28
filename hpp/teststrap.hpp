@@ -1,9 +1,3 @@
-/*
- * File:   teststrap.hpp
- * Author: dariush
- *
- * Created on March 31, 2014, 9:36 PM
- */
 #ifndef TESTSTRAP_HPP
 #define	TESTSTRAP_HPP
 #include <exception>

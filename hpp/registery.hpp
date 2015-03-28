@@ -1,10 +1,3 @@
-/* 
- * File:   registery.hpp
- * Author: dariush
- *
- * Created on April 3, 2014, 1:22 AM
- */
-
 #ifndef REGISTERY_HPP
 #define	REGISTERY_HPP
 #include "testCase.hpp"
