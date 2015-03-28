@@ -1,9 +1,1 @@
-*~
-*.o
-*.o.d
-*TODO
-dist
-build
-.dep.inc
-nbproject/
-Makefile
+.*/

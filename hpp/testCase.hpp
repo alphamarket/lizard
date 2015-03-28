@@ -19,7 +19,7 @@ namespace CPP_TESTER {
         /**
          * @brief Runs the testcase
          */
-        virtual void run(int argc = 0, void** argv = NULL) = 0;
+        virtual void run(size_t argc = 0, void** argv = NULL) = 0;
     };
 }
 #endif	/* TESTER_HPP */
