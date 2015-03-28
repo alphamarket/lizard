@@ -9,11 +9,11 @@ namespace CPP_TESTER {
          */
         virtual ~testCase()     { }
         /**
-         * @brief Initiates the testcase
+         * @brief Runs before the run()
          */
         virtual void pre_run()  { }
         /**
-         * @brief Disposes the testcase
+         * @brief Runs after the run()
          */
         virtual void post_run() { }
         /**
