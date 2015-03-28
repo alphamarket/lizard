@@ -48,25 +48,19 @@ For convenience there are multiple macros [defined](https://github.com/dariushha
 ```CPP
 /*
  * This file construct test units for testing
- * TargetFile: https://github.com/dariushha/cpptester-demo/blob/master/hpp/line.hpp
+ * TargetFile: https://github.com/dariushha/cpptester-demo/blob/master/src/line.hpp
  *
  * File:   lineTestCase.hpp
  * Author: dariush
- *
- * Created on March 30, 2014, 12:37 AM
  */
-#define __LINE_TEST__
-#ifdef __LINE_TEST__
-/**
- * The general abstract testCass
- */
-#include "../../hpp/testCase.hpp"
+#ifndef LINETESTCASE_HPP
+#define LINETESTCASE_HPP
 /**
  * The class we want to test
  */
-#include "../../../hpp/line.hpp"
+#include "../../src/line.hpp"
 /**
- * Any other dependency includes here 
+ * Any other dependency includes here
  */
 using namespace demo;
 using namespace CPP_TESTER;
@@ -85,56 +79,52 @@ namespace CPP_TESTER { namespace TESTS {
         /**
          * Init your test class here.
          */
-        bool __init() { }
+        void pre_run() { }
         /**
          * Free any resources used by your class here.
          */
-        bool __dispose() { }
+        void post_run() { }
         /**
          * Run your tests here
          */
-        bool __run(int argc = 0, void** argv = NULL) {
+        void run(int, void**) {
             /**
              * You can do any test here
              */
-            // I did this!!
-            BESURE(this->heap_check());
+            BESURE(this->alloc_check());
         }
     private:
         /**
          * Creates an instance on heap and tests its behaviours.
          */
-        bool heap_check() {
+        bool alloc_check() {
             // a instance created
-            line* __line = new line(0, "TEST_LINE");
+            line* line_ = new line(0, "TEST_LINE");
             // for demo: check created instance is a pointer?
-            IS_POINTER(__line);
+            IS_POINTER(line_);
             // at instance's ctor we initialized the line# to 0
-            // It should be as passed 
-            IS_ZERO(__line->getLineNumber());
+            // It should be as passed
+            IS_ZERO(line_->getLineNumber());
             // The line's content should be as passed
-            IS_EQUAL(__line->getContent(), "TEST_LINE");
+            IS_EQUAL(line_->getContent(), "TEST_LINE");
             // No source defined, so source should be NULL
-            IS_NULL(__line->getSource());
-            delete(__line);
-            // create a new line 
-            __line = new line(-1, "INVALID_TEST_LINE");
+            IS_NULL(line_->getSource());
+            delete(line_);
+            // create a new line
+            line_ = new line(-1, "INVALID_TEST_LINE");
             // since the line# is `size_t` so any negative line#
             // will dealt as unsigned.
-            NOT_EQUAL(__line->getLineNumber(), (unsigned)-1);
+            NOT_EQUAL(line_->getLineNumber(), (unsigned)-1);
             // test line content
-            IS_EQUAL(__line->getContent(), "INVALID_TEST_LINE");
+            IS_EQUAL(line_->getContent(), "INVALID_TEST_LINE");
             // no source defined as well
-            IS_NULL(__line->getSource());
-            delete(__line);
-__ASSERT_SUCCESS:
+            IS_NULL(line_->getSource());
+            delete(line_);
             return true;
-__ASSERT_FAILURE:
-            return false;
         }
     };
 } }
-#endif
+#endif // LINETESTCASE_HPP
 ```
 > <b>How it woks?</b>
 
