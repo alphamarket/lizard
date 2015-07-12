@@ -87,7 +87,7 @@ namespace CPP_TESTER { namespace TESTS {
         /**
          * @brief Runs the testcase
          */
-        void run(int, void**) {
+        void run(size_t, void**) {
             /**
              * You can do any test here
              */
