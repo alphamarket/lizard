@@ -15,11 +15,11 @@
 /**
  * Makes sure the arguments are eqaul
  */
-#define IS_EQUAL(o, z) BESURE(o == z)
+#define IS_EQUAL(o, z) BESURE((o) == z)
 /**
  * Makes sure the arguments are NOT eqaul
  */
-#define NOT_EQUAL(o, z) BESURE(o != z)
+#define NOT_EQUAL(o, z) BESURE((o) != z)
 /**
  * Makes sure the arguments are eqaul
  */
