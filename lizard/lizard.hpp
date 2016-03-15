@@ -1,12 +1,13 @@
-#ifndef TESTSTRAP_HPP
-#define	TESTSTRAP_HPP
+#ifndef LIZARD_HPP
+#define	LIZARD_HPP
+
 #include <exception>
 #include <assert.h>
 #include <typeinfo>
 #if __cplusplus >= 201103L
 #   include <type_traits>
 #endif
-#include "bootstrap.hpp"
+#include "stdafx.hpp"
 /**
  * Makes sure the input is true
  */
@@ -14,7 +15,7 @@
 /**
  * Failure assertion with message
  */
-#define FAIL(o) BESURE(!(o))
+#define FAIL(o) __assert_fail (__STRING(o), __FILE__, __LINE__, __ASSERT_FUNCTION)
 /**
  * Makes sure the arguments are eqaul
  */
@@ -106,16 +107,18 @@
 /**
  * Makes sure if after executing the passed argument an exception will be thrown
  */
-#define SHOULD_THROW(o)   try { \
-                                                        o; \
-                                                        FAIL("Expecting to catch something, but didn't!"); \
-                                                    } catch(...) { }
+#define SHOULD_THROW(o) \
+try { \
+    o; \
+    FAIL("Expecting to catch something, but didn't!"); \
+} catch(...) { }
 /**
  * Makes sure if after executing the passed argument an exception does NOT get thrown
  */
-#define SHOULD_NOT_THROW(o)   try { \
-                                                                o; \
-                                                            } catch(...) { FAIL("Didn't expect to catch exception, but did!"); }
+#define SHOULD_NOT_THROW(o) \
+try { \
+    o; \
+} catch(...) { FAIL("Didn't expect to catch exception, but did!"); }
 /**
  * Makes sure the arguments are eqaul
  */
@@ -208,7 +211,9 @@
 #define IS_BASE_OF(b, o) 							\
   ((std::is_base_of<b, o>::value)								\
    ? __ASSERT_VOID_CAST (0)						\
-   : __assert_fail ("Type inheritance", __FILE__, __LINE__, __ASSERT_FUNCTION))
+   : FAIL("type inheritance assertion failure!"))
 #endif
 
-#endif	/* TESTSTRAP_HPP */
+#include "utilities.hpp"
+
+#endif	/* LIZARD_HPP */

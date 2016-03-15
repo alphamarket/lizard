@@ -1,21 +1,24 @@
 cmake_minimum_required(VERSION 2.8)
 
-SET(CMAKE_CXX_FLAGS "-D__TEST__")
+SET(CMAKE_CXX_FLAGS "-std=c++11")
 
-project(GA_TSP_TEST)
+project(LIZARD_TESTER)
 
-file(GLOB_RECURSE TEST_SOURCES)
-file(GLOB_RECURSE TEST_HEADERS "hpp/*.hpp")
+file(GLOB_RECURSE iSOURCES)
+file(GLOB_RECURSE iHEADERS "lizard/*.hpp")
 
-set (TEST_INCLUDE_DIRS "")
-foreach (_headerFile ${TEST_HEADERS})
+set (iINCLUDE_DIRS "")
+foreach (_headerFile ${iHEADERS})
     get_filename_component(_dir ${_headerFile} PATH)
-    list (APPEND TEST_INCLUDE_DIRS ${_dir})
+    list (APPEND iINCLUDE_DIRS ${_dir})
 endforeach()
-list(REMOVE_DUPLICATES TEST_INCLUDE_DIRS)
+list(REMOVE_DUPLICATES iINCLUDE_DIRS)
 
-include_directories(${TEST_INCLUDE_DIRS})
-add_executable (test testerMain.cpp ${TEST_SOURCES})
+include_directories(${iINCLUDE_DIRS} ".." ".")
+
+add_executable (test lizard/lizard.cpp ${iSOURCES})
+
+target_link_libraries (test)
 
 # set warnings level
 IF(MSVC) # MSVC compiler (Win32 only)

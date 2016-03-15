@@ -1,0 +1,10 @@
+#!/bin/bash
+# Now we are under your project's subdirectory.
+git clone "https://github.com/noise2/lizard.git" test || exit 1
+# Delete this & README.md
+rm -rf test/.git test/README.md test/lizard-setup
+# reset stage and add test folder
+git reset && git add test
+# commit the test
+git commit -m "+ test/"
+

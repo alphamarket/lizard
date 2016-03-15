@@ -1,18 +1,19 @@
 #ifndef MANIFEST_HPP
 #define	MANIFEST_HPP
-#include "hpp/teststrap.hpp"
-#include "hpp/registery.hpp"
-/*
- * Include test case files
- */
-// #include "TestCases/example/fooTestCase.hpp"
-namespace CPP_TESTER {
-    /**
-     * bootstrap the test suite for testing
+
+#include "lizard/lizard.hpp"
+
+// include test case files
+//#include "tests/template_tester.hpp"
+
+void lizard_manifest() {
+    /*
+     * use following macros to register test cases
+     *      lizard_register(<test class name>)
+     *      lizard_register_custom(<test label>, <test class name>)
+     * example:
+     *      lizard_register(test::template_tester);
      */
-    void __bootstrap() {
-        /* example */
-        // registery::__register("Example Tester", new fooTestCase());
-    }
 }
+
 #endif	/* MANIFEST_HPP */
