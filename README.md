@@ -6,9 +6,6 @@ A lightweight and efficient C++ testing package.
 Prerequisites
 ---
 No prerequisites is needed. The project is as is.
-This project has been compiled and tested with `g++-4.6.real (Ubuntu/Linaro 4.6.4-1ubuntu1~12.04) 4.6.4` with 100% success.
-
-> There is NO WARRANTY if it works with other COMPILERS or on other OPERATING SYSTEMS. 
 
 How to step up?
 -----

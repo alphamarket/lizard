@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8)
 
-SET(CMAKE_CXX_FLAGS "-std=c++11")
+set(CMAKE_BUILD_TYPE Release)
+
+SET(CMAKE_CXX_FLAGS "-std=c++14")
 
 project(LIZARD_TESTER)
 
@@ -15,6 +17,8 @@ endforeach()
 list(REMOVE_DUPLICATES iINCLUDE_DIRS)
 
 include_directories(${iINCLUDE_DIRS} ".." ".")
+
+SET(CMAKE_CXX_FLAGS "-DTESTING=1 -pthread -Wall -Wfloat-conversion -L/usr/local/lib")
 
 add_executable (test lizard/lizard.cpp ${iSOURCES})
 

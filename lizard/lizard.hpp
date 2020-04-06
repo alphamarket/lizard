@@ -1,21 +1,105 @@
 #ifndef LIZARD_HPP
 #define	LIZARD_HPP
 
+#define LIZARD_VERSION "2.0.0"
+
+#ifdef __unix__
+#   define OS_UNIX
+#else
+#   define OS_WIN
+#   warning "The compilation of this source in any other OS than UNIX may cause many errors!"
+#endif
+
+#ifdef __GNUC__
+#   define __unused __attribute__((unused))
+#else
+#   define __unused
+#endif
+
+#include <string>
+#include <time.h>
+#include <random>
+#include <vector>
+#include <memory>
+#include <sstream>
+#include <cstdlib>
+#include <stdlib.h>
+#include <assert.h>
+#include <iostream>
+#include <stdexcept>
+
+#define get_rand(min, range)((min) + rand() % (range))
+#define frand()             (double(rand()) / RAND_MAX)
+#ifdef OS_UNIX
+#   include <unistd.h>
+#   define dynamic_seed     (time(NULL) + rand() + getpid() * 100)
+#else
+#   define dynamic_seed     (time(NULL) + rand())
+#endif
+#define updateseed()        srand(dynamic_seed)
+
+#ifdef __GNUC__
+#	define __deprecated(func) func __attribute__ ((deprecated))
+#elif defined(_MSC_VER)
+#	define __deprecated(func) __declspec(deprecated) func
+#else
+#	pragma message("WARNING: You need to implement `__deprecated` for this compiler!")
+#	define __deprecated(func) func
+#endif
+
+#ifdef OS_UNIX
+#   define clear_screen() system("clear")
+#else
+#   ifdef OS_WIN
+#       define clear_screen() system("cls")
+#   else
+#       define clear_screen()
+#   endif
+#endif
+
 #include <exception>
 #include <assert.h>
 #include <typeinfo>
 #if __cplusplus >= 201103L
 #   include <type_traits>
 #endif
-#include "stdafx.hpp"
+
+namespace lizard {
+    class TestFailException : public std::runtime_error {
+        size_t _line;
+        std::string _file;
+    public:
+
+        TestFailException(const char* const error, const char* const file = "", const size_t& line = 0)
+            : runtime_error(error), _line(line), _file(file)
+        { }
+
+        const size_t& line() const { return _line; }
+        const std::string& file() const { return _file; }
+    };
+
+    class TestSkipException : public std::runtime_error {
+        size_t _line;
+        std::string _file;
+    public:
+
+        TestSkipException(const char* const error = "", const char* const file = "", const size_t& line = 0)
+            : runtime_error(error), _line(line), _file(file)
+        { }
+
+        const size_t& line() const { return _line; }
+        const std::string& file() const { return _file; }
+    };
+}
+
 /**
  * Makes sure the input is true
  */
-#define BESURE(o) assert((o))
+#define BESURE(o) { if(!(o)) { throw lizard::TestFailException(("Failed to assert: " + std::string(#o)).c_str(), __FILE__, __LINE__); } }
 /**
  * Failure assertion with message
  */
-#define FAIL(o) __assert_fail (__STRING(o), __FILE__, __LINE__, __ASSERT_FUNCTION)
+#define FAIL(o) throw lizard::TestFailException(#o, __FILE__, __LINE__)
 /**
  * Makes sure the arguments are eqaul
  */
@@ -110,7 +194,7 @@
 #define SHOULD_THROW(o) \
 try { \
     o; \
-    FAIL("Expecting to catch something, but didn't!"); \
+    FAIL("Expecting to catch something, but didn't get one!"); \
 } catch(...) { }
 /**
  * Makes sure if after executing the passed argument an exception does NOT get thrown
@@ -118,7 +202,7 @@ try { \
 #define SHOULD_NOT_THROW(o) \
 try { \
     o; \
-} catch(...) { FAIL("Didn't expect to catch exception, but did!"); }
+} catch(...) { FAIL("Wasn't expecting to catch something, but got one!"); }
 /**
  * Makes sure the arguments are eqaul
  */
@@ -214,6 +298,95 @@ try { \
    : FAIL("type inheritance assertion failure!"))
 #endif
 
-#include "utilities.hpp"
+#ifdef __unix__
+    #define COLORIFY(c, o) std::string(c) + o + std::string("\x1b[m")
+    #define MKCOLOR(c) std::string("\x1b[" + std::string(#c) + "m")
+#else
+    #define COLORIFY(c, o) o
+    #define MKCOLOR(c)
+#endif
+
+#define TEST(func) \
+    std::cout << COLORIFY(MKCOLOR(32), "  Testing ") << #func; \
+    this->test_##func(); \
+    std::cout << COLORIFY(MKCOLOR(32), " [OK]") << std::endl << std::flush
+
+#include <functional>
+
+#define TESTER(test_suite_name, ...) namespace lizard { namespace test { \
+    class test_suite_name : public lizard_base_tester { \
+        std::vector<std::pair<std::string, std::function<void()>>> __tests; \
+    public: \
+        void run() { \
+            __VA_ARGS__ \
+            size_t count = 0, warnings_count = 0;\
+            auto handle_error = [&count](const auto& __tests, const auto& t) { \
+                std::cout << "\r" << COLORIFY(MKCOLOR(31), "  \u2613 Testing ") << t.first << " " << COLORIFY(MKCOLOR(41) + MKCOLOR(5), "[FAILED]"); \
+                if(count < __tests.size()) \
+                    std::cout << " " << COLORIFY(MKCOLOR(31), "[" << __tests.size() - count << " remaining tests skipped!]"); \
+                std::cout << std::endl << std::flush; \
+            }; \
+            for(auto& t : __tests) { \
+                count += 1; \
+                try { \
+                    std::cout << COLORIFY(MKCOLOR(32), "  Testing ") << t.first; \
+                    t.second(); \
+                    std::cout << "\r" << COLORIFY(MKCOLOR(32), "  \u221A Testing ") << t.first << std::endl << std::flush; \
+                } catch(lizard::TestSkipException& e) { \
+                    std::cout << "\r" << COLORIFY(MKCOLOR(33), "  🛇 Testing ") << t.first << " " << COLORIFY(MKCOLOR(43) + MKCOLOR(5), "[SKIPPED]") << std::endl \
+                              << "    File: " << e.file() << ":" << e.line() << std::endl; \
+                    if(std::string(e.what()).size() > 0) \
+                        std::cout << "    Message: " << e.what() << std::endl; \
+                    std::cout << std::flush; \
+                    warnings_count += 1; \
+                } catch(lizard::TestFailException& e) { \
+                    handle_error(__tests, t); \
+                    throw e; \
+                } catch(std::exception& e) { \
+                    handle_error(__tests, t); \
+                    throw lizard::TestFailException(e.what(), __FILE__); \
+                } \
+            } \
+            if(warnings_count > 0) SKIP(); \
+        } \
+    }; } } \
+
+#define SKIP() throw lizard::TestSkipException("", __FILE__, __LINE__)
+#define SKIP_WITH_MESSAGE(s) throw lizard::TestSkipException(#s, __FILE__, __LINE__)
+#define spec(func, ...) __tests.push_back(std::make_pair(#func, __VA_ARGS__))
+
+namespace lizard {
+    class lizard_base_tester {
+    public:
+        /**
+         * @brief Runs the testcase
+         */
+        virtual void run() = 0;
+        /**
+         * @brief The virtual destructor
+         */
+        virtual ~lizard_base_tester() { }
+    };
+
+    typedef std::pair<std::string, lizard_base_tester*> test_case;
+
+    class lizard_registery {
+        static lizard_registery* self;
+        std::vector<test_case> _registery;
+    public:
+        static lizard_registery* instance() { return self; }
+        static size_t size() { return self->_registery.size(); }
+        static std::vector<test_case>& container() { return self->_registery; }
+        static void push(const test_case& tc) { self->_registery.push_back(tc); }
+        static test_case* at(const size_t& index) { return &self->_registery[index]; }
+    };
+    lizard_registery* lizard_registery::self = new lizard_registery();
+}
+
+#define lizard_register_custom(label, name) ::lizard::lizard_registery::push(test_case(label, new name))
+#define lizard_register(name) lizard_register_custom(string(#name), name)
+#define $(label, name) lizard_register_custom(label, name)
+
+#define MANIFEST(...) namespace lizard { void lizard_manifest () { __VA_ARGS__ } }
 
 #endif	/* LIZARD_HPP */
