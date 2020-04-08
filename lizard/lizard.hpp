@@ -1,7 +1,7 @@
 #ifndef LIZARD_HPP
 #define	LIZARD_HPP
 
-#define LIZARD_VERSION "2.0.0"
+#define LIZARD_VERSION "2.0.1"
 
 #ifdef __unix__
 #   define OS_UNIX
@@ -191,17 +191,17 @@ namespace lizard {
 /**
  * Makes sure if after executing the passed argument an exception will be thrown
  */
-#define SHOULD_THROW(o) \
+#define SHOULD_THROW(...) \
 try { \
-    o; \
+    __VA_ARGS__; \
     FAIL("Expecting to catch something, but didn't get one!"); \
-} catch(...) { }
+} catch(const lizard::TestFailException&) { throw; } catch(...) { }
 /**
  * Makes sure if after executing the passed argument an exception does NOT get thrown
  */
-#define SHOULD_NOT_THROW(o) \
+#define SHOULD_NOT_THROW(...) \
 try { \
-    o; \
+    __VA_ARGS__; \
 } catch(...) { FAIL("Wasn't expecting to catch something, but got one!"); }
 /**
  * Makes sure the arguments are eqaul
