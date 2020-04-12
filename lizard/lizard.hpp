@@ -1,7 +1,7 @@
 #ifndef LIZARD_HPP
 #define	LIZARD_HPP
 
-#define LIZARD_VERSION "2.0.1"
+#define LIZARD_VERSION "2.0.2"
 
 #ifdef __unix__
 #   define OS_UNIX
@@ -374,11 +374,13 @@ namespace lizard {
         static lizard_registery* self;
         std::vector<test_case> _registery;
     public:
+        static void close() { delete self; }
         static lizard_registery* instance() { return self; }
         static size_t size() { return self->_registery.size(); }
         static std::vector<test_case>& container() { return self->_registery; }
         static void push(const test_case& tc) { self->_registery.push_back(tc); }
         static test_case* at(const size_t& index) { return &self->_registery[index]; }
+        static lizard_registery* open() { self = new lizard_registery(); return self; }
     };
     lizard_registery* lizard_registery::self = new lizard_registery();
 }

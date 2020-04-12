@@ -118,6 +118,7 @@ int main(int, char**) {
         lizard_change_stdout(false);
         lizard_flush_buffer();
     }
+    lizard_registery::close();
     if(lizard_test_errors)
         return EXIT_FAILURE;
     return EXIT_SUCCESS;
