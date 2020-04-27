@@ -381,6 +381,7 @@ try { \
 #define SKIP() throw lizard::TestSkipException("", __FILE__, __LINE__)
 #define SKIP_WITH_MESSAGE(s) throw lizard::TestSkipException(#s, __FILE__, __LINE__)
 #define spec(func, ...) __tests.push_back(std::make_pair(#func, __VA_ARGS__))
+#define spec_s(func, ...) __tests.push_back(std::make_pair(func, __VA_ARGS__))
 #define mktrigger2(key, ...) __triggers[#key] = __VA_ARGS__
 #define mktrigger3(type, key, ...) __triggers_##type[#key] = __VA_ARGS__
 #define onbefore(...) mktrigger2(before, __VA_ARGS__)
