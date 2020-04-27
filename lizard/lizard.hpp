@@ -1,6 +1,6 @@
 #pragma once
 
-#define LIZARD_VERSION "2.0.2"
+#define LIZARD_VERSION "2.1.0"
 
 #include <string>
 #include <vector>
