@@ -316,6 +316,9 @@ try { \
 #define TESTER(test_suite_name, ...) namespace lizard { namespace test { \
     class test_suite_name : public lizard_base_tester { \
         std::vector<std::pair<std::string, std::function<void()>>> __tests; \
+        std::unordered_map<std::string, std::function<void()>> __triggers; \
+        std::unordered_map<std::string, std::function<void(const std::string&)>> __triggers_spec; \
+        std::unordered_map<std::string, std::function<void(const std::string&, const std::exception&)>> __triggers_error; \
     public: \
         void run() { \
             __VA_ARGS__ \
@@ -326,13 +329,23 @@ try { \
                     std::cout << " " << COLORIFY(MKCOLOR(31), "[" << __tests.size() - count << " remaining tests skipped!]"); \
                 std::cout << std::endl << std::flush; \
             }; \
+            if(__triggers.count("before")) \
+                __triggers["before"](); \
             for(auto& t : __tests) { \
                 count += 1; \
                 try { \
                     std::cout << COLORIFY(MKCOLOR(32), "  Testing ") << t.first; \
+                    if(__triggers_spec.count("prespec")) \
+                        __triggers_spec["prespec"](t.first); \
                     t.second(); \
+                    if(__triggers_spec.count("postspec")) \
+                        __triggers_spec["postspec"](t.first); \
                     std::cout << "\r" << COLORIFY(MKCOLOR(32), "  \u221A Testing ") << t.first << std::endl << std::flush; \
                 } catch(lizard::TestSkipException& e) { \
+                    if(__triggers_spec.count("postspec")) \
+                        __triggers_spec["postspec"](t.first); \
+                    if(__triggers_error.count("onskip")) \
+                        __triggers_error["onskip"](t.first, e); \
                     std::cout << "\r" << COLORIFY(MKCOLOR(33), "  🛇 Testing ") << t.first << " " << COLORIFY(MKCOLOR(43) + MKCOLOR(5), "[SKIPPED]") << std::endl \
                               << "    File: " << e.file() << ":" << e.line() << std::endl; \
                     if(std::string(e.what()).size() > 0) \
@@ -340,13 +353,27 @@ try { \
                     std::cout << std::flush; \
                     warnings_count += 1; \
                 } catch(lizard::TestFailException& e) { \
+                    if(__triggers_spec.count("postspec")) \
+                        __triggers_spec["postspec"](t.first); \
+                    if(__triggers_error.count("onfail")) \
+                        __triggers_error["onfail"](t.first, e); \
                     handle_error(__tests, t); \
+                    if(__triggers.count("after")) \
+                        __triggers["after"](); \
                     throw e; \
                 } catch(std::exception& e) { \
+                    if(__triggers_spec.count("postspec")) \
+                        __triggers_spec["postspec"](t.first); \
+                    if(__triggers_error.count("onfail")) \
+                        __triggers_error["onfail"](t.first, e); \
                     handle_error(__tests, t); \
+                    if(__triggers.count("after")) \
+                        __triggers["after"](); \
                     throw lizard::TestFailException(e.what(), __FILE__); \
                 } \
             } \
+            if(__triggers.count("after")) \
+                __triggers["after"](); \
             if(warnings_count > 0) SKIP(); \
         } \
     }; } } \
@@ -354,6 +381,14 @@ try { \
 #define SKIP() throw lizard::TestSkipException("", __FILE__, __LINE__)
 #define SKIP_WITH_MESSAGE(s) throw lizard::TestSkipException(#s, __FILE__, __LINE__)
 #define spec(func, ...) __tests.push_back(std::make_pair(#func, __VA_ARGS__))
+#define mktrigger2(key, ...) __triggers[#key] = __VA_ARGS__
+#define mktrigger3(type, key, ...) __triggers_##type[#key] = __VA_ARGS__
+#define onbefore(...) mktrigger2(before, __VA_ARGS__)
+#define onafter(...) mktrigger2(after, __VA_ARGS__)
+#define onskip(...) mktrigger3(error, onskip, __VA_ARGS__)
+#define onfail(...) mktrigger3(error, onfail, __VA_ARGS__)
+#define onprespec(...) mktrigger3(spec, prespec, __VA_ARGS__)
+#define onpostspec(...) mktrigger3(spec, postspec, __VA_ARGS__)
 
 namespace lizard {
     class lizard_base_tester {
