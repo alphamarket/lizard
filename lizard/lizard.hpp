@@ -382,7 +382,7 @@ namespace lizard {
         static test_case* at(const size_t& index) { return &self->_registery[index]; }
         static lizard_registery* open() { self = new lizard_registery(); return self; }
     };
-    lizard_registery* lizard_registery::self = new lizard_registery();
+    lizard_registery* lizard_registery::self = lizard_registery::open();
 }
 
 #define lizard_register_custom(label, name) ::lizard::lizard_registery::push(test_case(label, new name))
