@@ -1,51 +1,42 @@
 #pragma once
 
-#include <iostream>
-#include "lizard/lizard.hpp"
+#include "lizard/tester.hpp"
 
-TESTER(sample_tester,
+TEST(sample_tester) {
 
-    // onbefore([]() {
+    // onstart("A label for it", []() {
     //     std::cout << std::endl << "BEFORE ANY SPEC GOT STARTED!" << std::endl;
     // });
 
-    // onafter([]() {
+    // onterminate("A label for it", []() {
     //     std::cout << std::endl << "AFETR ALL SPECs GOT FINISHED!" << std::endl;
     // });
 
-    // onskip([](auto name, auto err) {
-    //     std::cout << std::endl << "SKIPPED: " << name << " WITH MESSAGE: " << err.what() << std::endl;
-    // });
-
-    // onfail([](auto name, auto err) {
-    //     std::cout << std::endl << "FAILED: " << name << " WITH MESSAGE: " << err.what() << std::endl;
-    // });
-
-    // onprespec([](auto name) {
+    // prespec("A label for it", [](auto name) {
     //     std::cout << std::endl << "STARTING SPEC: " << name << std::endl;
     // });
 
-    // onpostspec([](auto name) {
+    // postspec("A label for it", [](auto name) {
     //     std::cout << std::endl << "FINISHED SPEC: " << name << std::endl;
     // });
 
-    spec(sum, []() {
+    spec("sum", []() {
         IS_EQUAL(1 + 2, 3);
     });
-    
-    spec(multiply, []() {
+
+    spec("multiply", []() {
         SKIP_WITH_MESSAGE("SKIP WITH MESSAGE");
     });
-    
-    spec(minus, []() {
+
+    spec("minus", []() {
         IS_EQUAL(1 - 2, -1);
     });
 
-    spec(faulty, []() {
+    spec("faulty", []() {
         IS_EQUAL(2 / 2, -1);
     });
 
-    spec(divide, []() {
+    spec("divide", []() {
         IS_EQUAL(2 / 2, 1);
     });
-)
+}

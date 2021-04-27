@@ -2,11 +2,11 @@ cmake_minimum_required(VERSION 2.8)
 
 set(CMAKE_BUILD_TYPE Release)
 
-SET(CMAKE_CXX_FLAGS "-std=c++14")
+SET(CMAKE_CXX_FLAGS "-std=c++17")
 
 project(LIZARD_TESTER)
 
-file(GLOB_RECURSE iSOURCES)
+file(GLOB_RECURSE iSOURCES "lizard/*.cpp")
 file(GLOB_RECURSE iHEADERS "lizard/*.hpp")
 
 set (iINCLUDE_DIRS "")
@@ -20,7 +20,7 @@ include_directories(${iINCLUDE_DIRS} ".." ".")
 
 SET(CMAKE_CXX_FLAGS "-DTESTING=1 -pthread -Wall -Wfloat-conversion -L/usr/local/lib")
 
-add_executable (test lizard/lizard.cpp ${iSOURCES})
+add_executable (test ${iSOURCES})
 
 target_link_libraries (test)
 

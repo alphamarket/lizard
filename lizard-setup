@@ -2,7 +2,7 @@
 # Now we are under your project's subdirectory.
 git clone "https://github.com/alphamarket/lizard.git" test || exit 1
 # Delete this & README.md
-rm -rf test/.git test/README.md test/lizard-setup
+rm -rf test/.git test/README.md test/lizard-setup test/demo.gif test/LICENCE
 # reset stage and add test folder
 git reset && git add test
 # commit the test
