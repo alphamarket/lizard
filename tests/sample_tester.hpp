@@ -3,21 +3,32 @@
 #include "lizard/tester.hpp"
 
 TEST(sample_tester) {
-
-    // onstart("A label for it", []() {
+    // (v3.0.1)
+    // label-less `onstart` can only be defined once!
+    // onstart([]() {
     //     std::cout << std::endl << "BEFORE ANY SPEC GOT STARTED!" << std::endl;
     // });
 
-    // onterminate("A label for it", []() {
+    // (v3.0.1)
+    // label-less `onterminate` can only be defined once!
+    // onterminate([]() {
     //     std::cout << std::endl << "AFETR ALL SPECs GOT FINISHED!" << std::endl;
     // });
 
-    // prespec("A label for it", [](auto name) {
+    // (v3.0.1)
+    // label-less `prespec` can only be defined once!
+    // prespec([](auto name) {
     //     std::cout << std::endl << "STARTING SPEC: " << name << std::endl;
     // });
 
-    // postspec("A label for it", [](auto name) {
+    // (v3.0.1)
+    // label-less `postspec` can only be defined once!
+    // postspec([](auto name) {
     //     std::cout << std::endl << "FINISHED SPEC: " << name << std::endl;
+    // });
+
+    // onstart("A label for it", []() {
+    //     std::cout << std::endl << "BEFORE ANY SPEC GOT STARTED!" << std::endl;
     // });
 
     spec("sum", []() {

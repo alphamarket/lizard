@@ -22,7 +22,7 @@ cmake .. && make
 
 #include "lizard/tester.hpp"
 
-TESTER(sample_tester,
+TEST(sample_tester) {
     // (v3.0.1)
     // label-less `onstart` can only be defined once!
     // onstart([]() {
