@@ -86,6 +86,18 @@ public:
         template<typename Callback>
         inline void onterminate(const std::string& label, const Callback& callback) { registery(_executioners["onternimates"], label, callback); }
 
+        template<typename Callback>
+        inline void prespec(const Callback& callback) { prespec("", callback); }
+
+        template<typename Callback>
+        inline void postspec(const Callback& callback) { postspec("", callback); }
+
+        template<typename Callback>
+        inline void onstart(const Callback& callback) { onstart("", callback); }
+
+        template<typename Callback>
+        inline void onterminate(const Callback& callback) { onterminate("", callback); }
+
         virtual void setup() = 0;
 
     public:
