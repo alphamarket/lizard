@@ -3,7 +3,9 @@
 #include "lizard/tester.hpp"
 
 TEST(sample_tester, "Tester/Sample",
-	int some_var_to_use_inside_specs = 1;
+    int some_var_to_use_inside_specs = 1;
+
+    void tester_method() const;
 ) {
     // onstart("A label for it", []() {
     //     std::cout << std::endl << "BEFORE ANY SPEC GOT STARTED!" << std::endl;
@@ -37,7 +39,12 @@ TEST(sample_tester, "Tester/Sample",
         IS_EQUAL(2 / 2, -1);
     });
 
-    spec("divide", []() {
+    spec("divide", [&]() {
+        tester_method();
         IS_EQUAL(2 / 2, 1);
     });
+}
+
+void LIZARD_TESTER_METHOD(sample_tester, tester_method)() const {
+    std::cout << "Tester method got called!\n";
 }
