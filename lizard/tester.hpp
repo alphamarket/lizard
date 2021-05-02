@@ -37,22 +37,21 @@ public:
         };
 
         // make a backup from current stdout
-        mutable std::ostringstream lizard_std_buffer;
-        mutable std::streambuf* lizard_stdout = nullptr;
+        mutable std::ostringstream stdout_buffer;
+        mutable std::streambuf* stdout_handler = nullptr;
 
         void flush_buffer() const;
         void clear_buffer(void) const;
         void change_stdout(bool change2buffer) const;
 
-        inline std::string buffer() const { return lizard_std_buffer.str(); }
+        inline std::string buffer() const {
+            return stdout_buffer.str();
+        }
 
     protected:
         Base(const std::string& name)
             : _name(name)
-        {
-            lizard_stdout = std::cout.rdbuf();
-            Tester::instance()->signup(name, this);
-        }
+        { clear_buffer(); stdout_handler = std::cout.rdbuf(); }
 
         inline const auto& name() const noexcept
         { return _name; }
@@ -66,9 +65,11 @@ public:
 
         template<typename Collection, typename Callback>
         void registery(Collection& collection, const std::string& label, const Callback& callback) {
+#if 0
             if(std::accumulate(collection.begin(), collection.end(), false, [&label](auto prev, auto item) { return prev || item.first == label; }))
                 throw LizardRuntimeError("Duplicate `" + label + "`, cannot register it!");
-            collection.emplace_back(label, callback);
+#endif
+            collection.push_back({ label, callback });
         }
 
         template<typename Callback>
@@ -86,44 +87,21 @@ public:
         template<typename Callback>
         inline void onterminate(const std::string& label, const Callback& callback) { registery(_executioners["onternimates"], label, callback); }
 
-        template<typename Callback>
-        inline void prespec(const Callback& callback) { prespec("", callback); }
-
-        template<typename Callback>
-        inline void postspec(const Callback& callback) { postspec("", callback); }
-
-        template<typename Callback>
-        inline void onstart(const Callback& callback) { onstart("", callback); }
-
-        template<typename Callback>
-        inline void onterminate(const Callback& callback) { onterminate("", callback); }
-
         virtual void setup() = 0;
 
     public:
         TestUnitResult run() const;
     };
 
-private:
-    static std::shared_ptr<Tester> _instance;
-    static std::vector<std::shared_ptr<Base>> _test_units;
-
-    std::vector<std::tuple<std::string, const Base*, bool>> _manifest;
+    std::vector<std::shared_ptr<Base>> _test_units;
 
 public:
     Tester() { }
 
-    static std::shared_ptr<Tester>& instance() noexcept {
-        if(_instance == nullptr)
-            _instance = std::make_shared<Tester>();
-        return _instance;
-    }
-
     TestUnitResult run() const;
-    void signup(const std::string& name, const Base* tester);
 
     template<typename T>
-    static void register_it() { _test_units.push_back(std::make_shared<T>()); }
+    void register_it() { _test_units.push_back(std::make_shared<T>()); }
 };
 
 }

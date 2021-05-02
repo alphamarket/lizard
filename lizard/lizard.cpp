@@ -7,8 +7,12 @@
  */
 int main(int, char**) {
     using namespace lizard;
-    Manifester().exec();
-    auto result = Tester::instance()->run();
+    // create a tester object
+    Tester tester;
+    // ask manifester to execute on the tester
+    Manifester().exec(tester);
+    // run the tester and fetch the results
+    auto result = tester.run();
     // if there were any skips or failures
     if(result.number_of_errors + result.number_of_skips) {
         if(result.number_of_errors)

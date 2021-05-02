@@ -1,7 +1,8 @@
 #pragma once
 
-#define LIZARD_VERSION "2.1.0"
+#define LIZARD_VERSION "3.1.0"
 
+#include <any>
 #include <string>
 #include <vector>
 #include <sstream>
@@ -228,23 +229,28 @@ try { \
  */
 #define LIZARD_TESTER_NAME(name) Lizard_##name##_Tester
 /**
+ * Creates a test unit class member method
+ */
+#define LIZARD_TESTER_METHOD(name, method) lizard::LIZARD_TESTER_NAME(name):: method
+/**
  * Creates a test unit with given name
  */
-#define TEST(name) \
+#define TEST(name, display_name, ...) \
 namespace lizard { \
 class LIZARD_TESTER_NAME(name) \
     : public Tester::Base \
 { \
     void setup(); \
+    __VA_ARGS__ \
 public: \
-    LIZARD_TESTER_NAME(name)() : Tester::Base(#name) { setup(); } \
+    LIZARD_TESTER_NAME(name)() : Tester::Base(display_name) { setup(); } \
 }; \
 } \
 void lizard::LIZARD_TESTER_NAME(name)::setup()
 /**
  * Registers a test unit
  */
-#define $register(name) lizard::Tester::register_it<LIZARD_TESTER_NAME(name)>()
+#define $register(name) __tester.register_it<LIZARD_TESTER_NAME(name)>()
 /**
  * Builds up a manifest of test units
  */
@@ -252,10 +258,10 @@ void lizard::LIZARD_TESTER_NAME(name)::setup()
 namespace lizard { \
 class Manifester { \
 public: \
-    void exec(); \
+    void exec(Tester&); \
 }; \
 } \
-void lizard::Manifester::exec()
+void lizard::Manifester::exec(Tester& __tester)
 /**
  * Makes texts colorful!
  */
