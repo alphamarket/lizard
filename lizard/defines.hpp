@@ -1,6 +1,6 @@
 #pragma once
 
-#define LIZARD_VERSION "3.1.1"
+#define LIZARD_VERSION "3.2.0"
 
 #include <any>
 #include <string>
@@ -21,7 +21,7 @@
 /**
  * Failure assertion with message
  */
-#define FAIL(o) throw lizard::LizardTestFailError(#o, __FILE__, __LINE__)
+#define FAIL(o) throw lizard::LizardTestFailError(o, __FILE__, __LINE__)
 /**
  * Makes sure the arguments are eqaul
  */
@@ -244,6 +244,7 @@ class LIZARD_TESTER_NAME(name) \
     __VA_ARGS__ \
 public: \
     LIZARD_TESTER_NAME(name)() : Tester::Base(display_name) { setup(); } \
+    virtual ~LIZARD_TESTER_NAME(name)() { } \
 }; \
 } \
 void lizard::LIZARD_TESTER_NAME(name)::setup()

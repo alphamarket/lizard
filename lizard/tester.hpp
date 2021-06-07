@@ -42,7 +42,6 @@ public:
 
         void flush_buffer() const;
         void clear_buffer(void) const;
-        void change_stdout(bool change2buffer) const;
 
         inline std::string buffer() const {
             return stdout_buffer.str();
@@ -64,6 +63,7 @@ public:
         inline const auto& conditioner(const std::string& label) const noexcept
         { return _conditioners.at(label); }
 
+        inline void clear_stdout_buffer() const { clear_buffer(); }
 
         template<typename Collection, typename Callback>
         void registery(Collection& collection, const std::string& label, const Callback& callback) {
@@ -90,6 +90,8 @@ public:
         inline void onterminate(const std::string& label, const Callback& callback) { registery(_executioners["onternimates"], label, callback); }
 
         virtual void setup() = 0;
+
+        void change_stdout(bool change2buffer) const;
 
     public:
         TestUnitResult run() const;
