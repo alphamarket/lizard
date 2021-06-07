@@ -1,10 +1,10 @@
 #!/bin/bash
 # Now we are under your project's subdirectory.
-git clone "https://github.com/alphamarket/lizard.git" test || exit 1
+git clone "https://github.com/alphamarket/lizard.git" lizard || exit 1
 # Delete this & README.md
-rm -rf test/.git test/README.md test/lizard-setup test/demo.gif test/LICENCE
-# reset stage and add test folder
-git reset && git add test
-# commit the test
-git commit -m "+ test/"
+rm -rf lizard/.git lizard/README.md lizard/lizard-setup lizard/demo.gif lizard/LICENCE
+# reset stage and add lizard folder
+git reset && git add lizard
+# commit the lizard
+git commit -m "+ lizard/"
 
