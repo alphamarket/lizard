@@ -53,6 +53,8 @@ public:
             : _name(name)
         { clear_buffer(); stdout_handler = std::cout.rdbuf(); }
 
+        virtual ~Base() { }
+
         inline const auto& name() const noexcept
         { return _name; }
 
